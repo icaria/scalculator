@@ -2,6 +2,13 @@ package Calculator {
 	//var exp = "4+6="
 
 	object Calculator {
+
+		def simplify(expr: Expression): Expr = {
+
+			//val simpSubs = expr
+			
+		}
+		
 		def main(args: Array[String]) {
 			println("This is a calculator")
 		}
