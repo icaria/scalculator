@@ -1,25 +1,45 @@
-object HelloWorld {
-	def main(args: Array[String]) {
-		println("Hello, world!")
+package Calculator {
+	var exp = "4+6="
+
+	object Calculator {
+		def main(args: Array[String]) {
+			println("This is a calculator")
+		}
 	}
-}
-
-object Operation {
-
-}
-
-object Addition extends Operation {
-
-}
-
-object Subtraction extends Operation {
 	
-}
-
-object Multiplication extends Operation {
+	abstract class Operation {
+		def Operation(first: Int, second: Int)
+	}
 	
-}
-
-object Division extends Operation {
+	class ParseExpression {
+		
+	}
 	
+	class Addition extends Operation {
+		var x;
+		var y;
+		def Addition() {
+			
+		}
+	}
+	
+	class Subtraction extends Operation {
+		var x;
+		var y;
+		def Subtraction() {
+			
+		}
+	}
+	
+	class Multiplication extends Operation {
+		def Multiplication() {
+			
+		}
+	}
+	
+	class Division extends Operation {
+		def Division() {
+			
+		}
+	}
 }
