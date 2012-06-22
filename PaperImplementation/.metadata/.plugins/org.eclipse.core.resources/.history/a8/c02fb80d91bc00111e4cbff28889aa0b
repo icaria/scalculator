@@ -1,0 +1,178 @@
+package expAbstractOperation;
+
+/** A base class consisting of
+ *   - a root trait (gi.e. abstract class) `Exp' with an `accept' function
+ *     to apply an arbitrary visitor.
+ *   - a concrete instance class `Num' of `Exp' for numeric literals
+ *   - a root trait `Visitor' for visitors.
+ *   - an abstract type `visitor' bounded by `Visitor'
+ *   - a concrete instance `Eval' of visitors for evaluation.
+ */
+trait Base {
+
+  trait Exp {
+    def accept(v: visitor): Unit;
+  }
+
+  case class Num(value: Int) extends Exp {
+    def accept(v: visitor): Unit = v.caseNum(value);
+  }
+
+  type visitor <: Visitor;
+
+  /** Visitor methods always return `unit'. If a visitor conceptually
+   *  returns a result, this must be stored in the visitor itself. 
+   *  Note that the `Visitor' type cannot be parameterized, since
+   *  the abstract type `visitor' is bound by it. If we had constructor
+   *  polymorphism in Scala, we could also represent visitors that 
+   *  are parameterized with their result type.
+   */
+  trait Visitor {
+    def caseNum(value: Int): Unit;
+  }
+
+  /** The concrete visitor class `Eval'. Besides the `visit' method, 
+   *  it contains
+   *   - a variable `result' to receive the result of the visiting methods.
+   *   - a method `apply' which applies the visitor to a given expression
+   *     tree and returns the result stored in the visitor.
+   *  Note the explicit self type `visitor' for class `Eval'. It gives `this'
+   *  in `Eval' the type `visitor'. This is necessary for formulating the 
+   *  `apply' method in a type-safe way, and also allows the recursive
+   *  application of the visitor in the extensions below.
+   */
+  trait Eval requires (visitor with Eval) extends Visitor {
+    var result: int = _;
+    def apply(t: Exp): int = 
+      { t.accept(this); result }
+    def caseNum(value: int): unit = 
+      result = value;
+  }
+}
+
+/** Data extension 1: An extension of `Base' with  `Plus' expressions
+ *  It contains a new case class for `PLus' expressions, as well as:
+ *   - A refinement of the `Visitor' class to handle `Plus' expressions.
+ *   - A re-binding of the abstract type `visitor' to the new Visitor class.
+ *   - A refinement of the `Eval' class to handle `Plus' expressions.
+ */
+trait BasePlus extends Base {
+
+  type visitor <: Visitor;
+
+  trait Visitor extends super.Visitor {
+    def casePlus(left: Exp, right: Exp): Unit;
+  }
+
+  case class Plus(left: Exp, right: Exp) extends Exp {
+    def accept(v: visitor): Unit = v.casePlus(left, right); 
+  }
+
+  trait Eval requires (visitor with Eval) extends super.Eval with Visitor {
+    def casePlus(left: Exp, right: Exp): unit = 
+      result = apply(left) + apply(right);
+  }
+}
+
+/** A test object for the combination class.
+ *  It ``ties the knot'' by equating the abstract type `visitor' with
+ *  the class `Visitor'.
+ */
+object testBasePlus extends BasePlus with Application {
+  type visitor = Visitor;
+  val term = new Plus(new Num(1), new Num(2));
+  System.out.println(new Eval {} apply term)
+}
+
+///////////////////////////////////////////////////////////////////
+
+/** Data extension 2: An extension of `Base' with  `Neg' expressions
+ */
+trait BaseNeg extends Base {
+
+  type visitor <: Visitor;
+
+  trait Visitor extends super.Visitor {
+    def caseNeg(term: Exp): unit;
+  }
+
+  case class Neg(term: Exp) extends Exp {
+    def accept(v: visitor): unit = v.caseNeg(term); 
+  }
+
+  trait Eval requires (visitor with Eval) extends super.Eval with Visitor {
+    def caseNeg(term: Exp): unit = 
+      result = - apply(term);
+  }
+}
+
+/** Combining both data extensions with a deep mixin composition.
+ */
+trait BasePlusNeg extends BasePlus with BaseNeg {
+
+  type visitor <: Visitor;
+
+  trait Visitor extends super[BasePlus].Visitor with super[BaseNeg].Visitor;
+
+  trait Eval requires (visitor with Eval) extends super[BasePlus].Eval with super[BaseNeg].Eval with Visitor;
+
+}
+
+/** Testing the combination
+ */
+object testBasePlusNeg extends BasePlusNeg with Application {
+  type visitor = Visitor;
+  val term = Neg(Plus(Num(1), Num(2)));
+  System.out.println(new Eval {} apply term)
+}
+
+///////////////////////////////////////////////////////////////////////////
+
+/** Operation extension 1: Adding a show visitor
+ */ 
+trait ShowPlusNeg extends BasePlusNeg {
+
+  trait Show requires (visitor with Show) extends Visitor {
+    var result: String = _;
+    def apply(t: Exp): String = 
+      { t.accept(this); result }
+    def caseNum(value: int): unit = 
+      result = value.toString();
+    def casePlus(left: Exp, right: Exp): unit = 
+      result = apply(left) + "+" + apply(right);
+    def caseNeg(term: Exp): unit =
+      result = "-(" + apply(term) + ")";
+  }
+}
+
+/** Operation extension 2: An extension of `BasePlusNeg' with a `dble' method,
+ *  which returns an expression tree representing the original tree times two.
+ */ 
+trait DblePlusNeg extends BasePlusNeg {
+
+  trait Dble requires (visitor with Dble) extends Visitor {
+    var result: Exp = _;
+    def apply(t: Exp): Exp = 
+      { t.accept(this); result }
+    def caseNum(value: int): unit = 
+      result = Num(2 * value);
+    def casePlus(left: Exp, right: Exp): unit = 
+      result = Plus(apply(left), apply(right));
+    def caseNeg(term: Exp): unit =
+      result = Neg(apply(term));
+  }
+}
+
+/** Combining the two operation extensions with a shallow mixin composition.
+ */
+trait ShowDblePlusNeg extends DblePlusNeg with ShowPlusNeg;
+
+/** Testing the resulting combination.
+ */
+object testShowDblePlusNeg extends ShowDblePlusNeg with Application {
+  type visitor = Visitor;
+  val term = Neg(Plus(Num(1), Num(3)));
+  System.out.println("2 * (" + (new Show {} apply term) + ") = " + 
+		     (new Eval {} apply (new Dble {} apply term)));
+}
+
