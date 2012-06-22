@@ -17,7 +17,7 @@ object Calculator {
 	case class Variable(override val value:Double) extends NumberExpression (value)
       
 	def eval(exp:Expr) : Double = {
-		exp match {
+		simplify(exp) match {
 			case Number(v) => v
 			case Variable(v) => myVar
 			case AddExpr(left, right) => eval(left) + eval(right)
@@ -58,6 +58,9 @@ object Calculator {
 
 	def main(args: Array[String]) {
 	    println("Nuclear Launch Detected.")
+
+	    val x = eval( new Number(5) )
+	    println(x)
 	}
 	
 	
