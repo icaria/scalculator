@@ -67,7 +67,7 @@ trait BaseDiv extends Base {
     def eval = left.eval / right.eval
     def name = "Div"
   }
-}
+} 
 
 /** Combining the plus and negation data extensions
  */
