@@ -21,7 +21,7 @@ trait Base {
   
   trait Var extends Exp {
     val value: Int
-    def symbol: String
+    val symbol: String
     def name = "Var"
     def eval = value
     def sEval = symbol
@@ -284,6 +284,64 @@ trait EqualsPlusNeg extends BasePlusNeg with Equals {
     override def isNeg(t: exp) = operand eql t
   }
 }
+
+trait EqualsAllOperations extends BaseAllOperations with Equals{
+  type exp <: Exp
+  trait Exp extends super[BaseAllOperations].Exp with super[Equals].Exp{
+    def isPlus(l: exp, r: exp): Boolean = false
+    def isSubt(l: exp, r: exp): Boolean = false
+    def isMult(l: exp, r: exp): Boolean = false
+    def isDiv(l: exp, r: exp): Boolean = false
+    def isVar(v: String) = false
+    def isNeg(t: exp): Boolean = false
+  }
+  
+  trait Num extends super[Equals].Num with Exp
+  
+  trait Plus extends Exp with super.Plus{
+    def eql(other:exp): Boolean = other.isPlus(left, right)
+    override def isPlus(l: exp, r: exp) = (left eql l) && (right eql r)
+  }
+  
+  trait Subt extends Exp with super.Subt{
+    def eql(other:exp): Boolean = other.isSubt(left, right)
+    override def isSubt(l: exp, r: exp) = (left eql l) && (right eql r)
+  }
+  
+  trait Mult extends Exp with super.Mult{
+    def eql(other:exp): Boolean = other.isMult(left, right)
+    override def isMult(l: exp, r: exp) = (left eql l) && (right eql r)
+  }
+  
+  trait Div extends Exp with super.Div{
+    def eql(other:exp): Boolean = other.isDiv(left, right)
+    override def isDiv(l: exp, r: exp) = (left eql l) && (right eql r)
+  }
+  trait Var extends Exp with super.Var {
+    def eql(other: exp): Boolean = other.isVar(symbol)
+    override def isVar(v: String) = v == symbol
+  }
+  trait Neg extends Exp with super.Neg {
+    def eql(other: exp): Boolean = other.isNeg(operand)
+    override def isNeg(t: exp) = operand eql t
+  }
+}
+
+object testEqualsAllOperations extends EqualsAllOperations with Application
+{
+  type exp = Exp
+  val term = new Mult{
+    val left = new Plus { 
+      val left = new Num { val value =1 }
+      val right = new Num { val value = 2}
+      }
+    val right = new Num {
+      val value = 2
+      }
+  } 
+   
+}
+
 
 /** Testing the resulting combination
  */
