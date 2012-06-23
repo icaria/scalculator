@@ -8,23 +8,11 @@ package expAbstractData
 trait Base {
   type exp <: Exp
 
-  trait Exp { 
-    def eval: Int
-    def name: String
-  }
+  trait Exp { def eval: int }
 
   trait Num extends Exp {
-    val value: Int
-    def name = "Num"
+    val value: int
     def eval = value
-  }
-  
-  trait Var extends Exp {
-    val value: Int
-    val symbol: String
-    def name = "Var"
-    def eval = value
-    def sEval = symbol
   }
 }
 
@@ -41,70 +29,21 @@ trait BasePlus extends Base {
     val left: exp
     val right: exp
     def eval = left.eval + right.eval
-    def name = "Plus"
   }
 }
 
-/** Data extension 2: An extension of `Base' with `Subt' expressions
- */
-trait BaseSubt extends Base {
-  trait Subt extends Exp {
-    val left: exp
-    val right: exp
-    def eval = left.eval - right.eval
-    def name = "Subt"
-  }
-} 
-
-/** Data extension 3: An extension of `Base' with negation expressions
+/** Data extension 2: An extension of `Base' with negation expressions
  */
 trait BaseNeg extends Base {
   trait Neg extends Exp {
     val operand: exp
-    def name = "Neg"
     def eval = - operand.eval
   }
 }
 
-/** Data extension 4: An extension of `Base' with `Mult' expressions
- */
-trait BaseMult extends Base {
-  trait Mult extends Exp {
-    val left: exp
-    val right: exp
-    def eval = left.eval * right.eval
-    def name = "Mult"
-  }
-}
-
-/** Data extension 5: An extension of `Base' with `Div' expressions
- */
-trait BaseDiv extends Base {
-  trait Div extends Exp {
-    val left: exp
-    val right: exp
-    def eval = left.eval / right.eval
-    def name = "Div"
-  }
-} 
-
-/** Data extension 6: An extension of `Base' with `Bracket' expressions
- */
-trait BaseBracket extends Base {
-  trait Bracket extends Exp {
-    val operand: exp
-    def eval = eval
-    def name = "Bracket"
-  }
-} 
-
 /** Combining the plus and negation data extensions
  */
 trait BasePlusNeg extends BasePlus with BaseNeg
-
-/** Combining all data extensions
- */
-trait BaseAllOperations extends BasePlusNeg with BaseSubt with BaseMult with BaseDiv with BaseBracket
 
 /** A test object for the combination class.
  *  It ``ties the knot'' by equating the abstract type `exp' with
@@ -191,7 +130,7 @@ trait DblePlusNeg extends BasePlusNeg {
     def dble: exp
   }
 
-  def Num(v: Int): exp
+  def Num(v: int): exp
   def Plus(l: exp, r: exp): exp
   def Neg(t: exp): exp
 
@@ -210,7 +149,7 @@ trait DblePlusNeg extends BasePlusNeg {
  */
 object testDblePlusNeg extends DblePlusNeg with Application {
   type exp = Exp
-  def Num(v: Int): exp = new Num { val value = v }
+  def Num(v: int): exp = new Num { val value = v }
   def Plus(l: exp, r: exp): exp = new Plus { val left = l; val right = r}
   def Neg(t: exp): exp = new Neg { val operand = t }
   val term = Neg(Plus(Num(1), Num(2)))
@@ -245,7 +184,7 @@ trait ShowDblePlusNeg extends ShowPlusNeg with DblePlusNeg {
  */
 object testShowDblePlusNeg extends ShowDblePlusNeg with Application {
   type exp = Exp
-  def Num(v: Int): exp = new Num { val value = v }
+  def Num(v: int): exp = new Num { val value = v }
   def Plus(l: exp, r: exp): exp = new Plus { val left = l; val right = r }
   def Neg(t: exp): exp = new Neg { val operand = t }
   val term = Neg(Plus(Num(1), Num(2)))
@@ -259,89 +198,31 @@ object testShowDblePlusNeg extends ShowDblePlusNeg with Application {
 trait Equals extends Base {
   type exp <: Exp
   trait Exp extends super.Exp {
-    def eql(other: exp): Boolean
-    def isNum(v: Int) = false
+    def eql(other: exp): boolean
+    def isNum(v: int) = false
   }
   trait Num extends super.Num with Exp {
-    def eql(other: exp): Boolean = other.isNum(value)
-    override def isNum(v: Int) = v == value
+    def eql(other: exp): boolean = other.isNum(value)
+    override def isNum(v: int) = v == value
   }
 }
 
 trait EqualsPlusNeg extends BasePlusNeg with Equals {
   type exp <: Exp
   trait Exp extends super[BasePlusNeg].Exp with super[Equals].Exp {
-    def isPlus(l: exp, r: exp): Boolean = false
-    def isNeg(t: exp): Boolean = false
+    def isPlus(l: exp, r: exp): boolean = false
+    def isNeg(t: exp): boolean = false
   }
   trait Num extends super[Equals].Num with Exp
   trait Plus extends Exp with super.Plus {
-    def eql(other: exp): Boolean = other.isPlus(left, right)
+    def eql(other: exp): boolean = other.isPlus(left, right)
     override def isPlus(l: exp, r: exp) = (left eql l) && (right eql r)
   }
   trait Neg extends Exp with super.Neg {
-    def eql(other: exp): Boolean = other.isNeg(operand)
+    def eql(other: exp): boolean = other.isNeg(operand)
     override def isNeg(t: exp) = operand eql t
   }
 }
-
-trait EqualsAllOperations extends BaseAllOperations with Equals{
-  type exp <: Exp
-  trait Exp extends super[BaseAllOperations].Exp with super[Equals].Exp{
-    def isPlus(l: exp, r: exp): Boolean = false
-    def isSubt(l: exp, r: exp): Boolean = false
-    def isMult(l: exp, r: exp): Boolean = false
-    def isDiv(l: exp, r: exp): Boolean = false
-    def isVar(v: String) = false
-    def isNeg(t: exp): Boolean = false
-  }
-  
-  trait Num extends super[Equals].Num with Exp
-  
-  trait Plus extends Exp with super.Plus{
-    def eql(other:exp): Boolean = other.isPlus(left, right)
-    override def isPlus(l: exp, r: exp) = (left eql l) && (right eql r)
-  }
-  
-  trait Subt extends Exp with super.Subt{
-    def eql(other:exp): Boolean = other.isSubt(left, right)
-    override def isSubt(l: exp, r: exp) = (left eql l) && (right eql r)
-  }
-  
-  trait Mult extends Exp with super.Mult{
-    def eql(other:exp): Boolean = other.isMult(left, right)
-    override def isMult(l: exp, r: exp) = (left eql l) && (right eql r)
-  }
-  
-  trait Div extends Exp with super.Div{
-    def eql(other:exp): Boolean = other.isDiv(left, right)
-    override def isDiv(l: exp, r: exp) = (left eql l) && (right eql r)
-  }
-  trait Var extends Exp with super.Var {
-    def eql(other: exp): Boolean = other.isVar(symbol)
-    override def isVar(v: String) = v == symbol
-  }
-  trait Neg extends Exp with super.Neg {
-    def eql(other: exp): Boolean = other.isNeg(operand)
-    override def isNeg(t: exp) = operand eql t
-  }
-}
-
-object testEqualsAllOperations extends EqualsAllOperations with Application
-{
-  type exp = Exp
-  val term = new Mult{
-    val left = new Plus { 
-      val left = new Num { val value =1 }
-      val right = new Num { val value = 2}
-      }
-    val right = new Num {
-      val value = 2
-      }
-  } 
-   
-}
-
 
 /** Testing the resulting combination
  */
