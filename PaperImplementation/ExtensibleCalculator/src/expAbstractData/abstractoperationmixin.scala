@@ -299,7 +299,7 @@ object testEqualsAllOperations extends EqualsAllOperations
       val value = 2
       }
   } 
-   //def main(args: Array[String]) {println("yoyoyo \n")}
+   def main(args: Array[String]) {println("yoyoyo \n")}
 }
 
 
@@ -324,6 +324,3 @@ trait EqualsShowPlusNeg extends EqualsPlusNeg with ShowPlusNeg {
        with super[ShowPlusNeg].Neg
        with Exp
 }
-
-
-
