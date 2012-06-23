@@ -18,6 +18,14 @@ trait Base {
     def name = "Num"
     def eval = value
   }
+  
+  trait Var extends Exp {
+    val value: Int
+    def symbol: String
+    def name = "Var"
+    def eval = value
+    def sEval = symbol
+  }
 }
 
 object testBase extends Base with Application {
@@ -37,7 +45,18 @@ trait BasePlus extends Base {
   }
 }
 
-/** Data extension 2: An extension of `Base' with negation expressions
+/** Data extension 2: An extension of `Base' with `Subt' expressions
+ */
+trait BaseSubt extends Base {
+  trait Subt extends Exp {
+    val left: exp
+    val right: exp
+    def eval = left.eval - right.eval
+    def name = "Subt"
+  }
+} 
+
+/** Data extension 3: An extension of `Base' with negation expressions
  */
 trait BaseNeg extends Base {
   trait Neg extends Exp {
@@ -47,7 +66,7 @@ trait BaseNeg extends Base {
   }
 }
 
-/** Data extension 3: An extension of `Base' with `Mult' expressions
+/** Data extension 4: An extension of `Base' with `Mult' expressions
  */
 trait BaseMult extends Base {
   trait Mult extends Exp {
@@ -58,7 +77,7 @@ trait BaseMult extends Base {
   }
 }
 
-/** Data extension 4: An extension of `Base' with `Div' expressions
+/** Data extension 5: An extension of `Base' with `Div' expressions
  */
 trait BaseDiv extends Base {
   trait Div extends Exp {
@@ -69,9 +88,23 @@ trait BaseDiv extends Base {
   }
 } 
 
+/** Data extension 6: An extension of `Base' with `Bracket' expressions
+ */
+trait BaseBracket extends Base {
+  trait Bracket extends Exp {
+    val operand: exp
+    def eval = eval
+    def name = "Bracket"
+  }
+} 
+
 /** Combining the plus and negation data extensions
  */
 trait BasePlusNeg extends BasePlus with BaseNeg
+
+/** Combining all data extensions
+ */
+trait BaseAllOperations extends BasePlusNeg with BaseSubt with BaseMult with BaseDiv with BaseBracket
 
 /** A test object for the combination class.
  *  It ``ties the knot'' by equating the abstract type `exp' with

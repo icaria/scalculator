@@ -1,17 +1,2 @@
 INDEX VERSION 1.126+C:\Users\JTK\Documents\SE 464\Assignment 2\repo\scalculator\PaperImplementation\.metadata\.plugins\org.eclipse.jdt.core
-1697886153.index
-30765161.index
-305854171.index
-3133528496.index
-4155206848.index
-1982273356.index
-1498219845.index
 623875903.index
-573280295.index
-3974580528.index
-573543369.index
-1115467115.index
-3065916431.index
-163172794.index
-1995173708.index
-3930639019.index
