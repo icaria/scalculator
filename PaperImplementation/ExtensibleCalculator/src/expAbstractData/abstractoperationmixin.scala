@@ -10,24 +10,20 @@ trait Base {
 
   trait Exp { 
     def eval: Int
-    def name: String
   }
 
   trait Num extends Exp {
     val value: Int
-    def name = "Num"
     def eval = value
   }
   
   trait Var extends Exp {
     val value: Int
     val symbol: String
-    def name = "Var"
     def eval:Int = value
     def sEval = symbol
   }
 }
-
 
 
 /** Data extension 1: An extension of `Base' with `Plus' expressions
@@ -37,7 +33,6 @@ trait BasePlus extends Base {
     val left: exp
     val right: exp
     def eval = left.eval + right.eval
-    def name = "Plus"
   }
 }
 
@@ -48,7 +43,6 @@ trait BaseSubt extends Base {
     val left: exp
     val right: exp
     def eval = left.eval - right.eval
-    def name = "Subt"
   }
 } 
 
@@ -57,7 +51,6 @@ trait BaseSubt extends Base {
 trait BaseNeg extends Base {
   trait Neg extends Exp {
     val operand: exp
-    def name = "Neg"
     def eval = - operand.eval
   }
 }
@@ -69,7 +62,6 @@ trait BaseMult extends Base {
     val left: exp
     val right: exp
     def eval = left.eval * right.eval
-    def name = "Mult"
   }
 }
 
@@ -80,7 +72,6 @@ trait BaseDiv extends Base {
     val left: exp
     val right: exp
     def eval = left.eval / right.eval
-    def name = "Div"
   }
 } 
 
@@ -89,8 +80,7 @@ trait BaseDiv extends Base {
 trait BaseBracket extends Base {
   trait Bracket extends Exp {
     val operand: exp
-    def eval = eval
-    def name = "Bracket"
+    def eval = operand.eval
   }
 } 
 
@@ -173,28 +163,156 @@ trait SimplifyAllOperations extends BaseAllOperations{
     def simplify:exp = {
       var sLeft = left.simplify
       var sRight = right.simplify
-      // var returnType:exp = 
+      // x + 0
       if ((sLeft.isInstanceOf[Var] && (sRight.isInstanceOf[Num] && (sRight.eval == 0))) )
       {
-        var casted = left.asInstanceOf[Var]
+        var casted = sLeft.asInstanceOf[Var]
         return Var(casted.value,casted.symbol)
       }
-   
+      // 0 + x
+      else if((sRight.isInstanceOf[Var] && (sLeft.isInstanceOf[Num] && (sLeft.eval == 0))) )
+      {
+        var casted = sRight.asInstanceOf[Var]
+        return Var(casted.value,casted.symbol)
+      }
+      // x + x
+      else if (sLeft.isInstanceOf[Var] && sRight.isInstanceOf[Var] ) 
+      {
+        var castedLeft = sLeft.asInstanceOf[Var]
+        var castedRight = sRight.asInstanceOf[Var]
+        if(castedLeft.symbol == castedRight.symbol)
+        {
+          return Mult(Num(2),Var(castedLeft.eval,castedLeft.symbol))
+        }
+      }
+      // (e1*x) + (e2*x) || (x*e1)+(e2*x) || (e1*x)+(x*e2) || (x*e1)+(x*e2)
+      else if (sLeft.isInstanceOf[Mult] && sRight.isInstanceOf[Mult] )
+      {
+        var firstMult = sLeft.asInstanceOf[Mult]
+        var secondMult = sRight.asInstanceOf[Mult]
+        
+        var first = firstMult.left;
+        var second = firstMult.right;
+        var third = secondMult.left;
+        var fourth = secondMult.right;
+        
+        //(e1*x) + (e2*x)
+        if(second.isInstanceOf[Var] && fourth.isInstanceOf[Var])
+        {
+          if(second.asInstanceOf[Var].symbol == fourth.asInstanceOf[Var])
+          {
+            return Mult(Plus(first,third),fourth )
+          }
+        }
+        //(x*e1)+(e2*x
+        else if(first.isInstanceOf[Var] && fourth.isInstanceOf[Var])
+        {
+          if(first.asInstanceOf[Var].symbol == fourth.asInstanceOf[Var])
+          {
+            return Mult(Plus(second,third),fourth )
+          }
+        }
+        //(e1*x)+(x*e2)
+        else if(second.isInstanceOf[Var] && third.isInstanceOf[Var])
+        {
+          if(second.asInstanceOf[Var].symbol == third.asInstanceOf[Var])
+          {
+            return Mult(Plus(first,fourth),third )
+          }
+        }
+        //(x*e1)+(x*e2)
+        else if(first.isInstanceOf[Var] && third.isInstanceOf[Var])
+        {
+          if(first.asInstanceOf[Var].symbol == third.asInstanceOf[Var])
+          {
+            return Mult(Plus(second,fourth),third )
+          }
+        }
+      }
+      return Plus(sLeft,sRight)
+    }
+  }
+  trait Subt extends super.Subt with Exp{
+    def simplify:exp = {
+      var sLeft = left.simplify
+      var sRight = right.simplify
       
-
-      Plus(sLeft,sRight)
+      //checking for x - x
+      if (sLeft.isInstanceOf[Var] && sRight.isInstanceOf[Var] )
+      {
+        if (sLeft.asInstanceOf[Var].symbol == sRight.asInstanceOf[Var].symbol)
+        {
+            return Num(0)
+        }
+      }      
+      return Subt(sLeft,sRight)
     }
   }
   trait Mult extends super.Mult with Exp{
-    
+    def simplify:exp = {
+      var sLeft = left.simplify
+      var sRight = right.simplify
+      
+      //checking for x * 1
+      if (sLeft.isInstanceOf[Var] && sRight.isInstanceOf[Num] )
+      {
+        if ( sRight.asInstanceOf[Num].eval == 1)
+        {
+            return Var(sLeft.asInstanceOf[Var].value,sLeft.asInstanceOf[Var].symbol)
+        }
+      }
+      //checking for 1 * x
+      else if (sRight.isInstanceOf[Var] && sLeft.isInstanceOf[Num] )
+      {
+        if (sLeft.asInstanceOf[Num].eval == 1)
+        {
+          return Var(sRight.asInstanceOf[Var].value,sRight.asInstanceOf[Var].symbol)
+        }
+      }
+      return Mult(sLeft,sRight)
+    }
   }
-  
-   def Num(v: Int): exp
+  trait Div extends super.Div with Exp{
+    def simplify:exp = {
+      var sLeft = left.simplify
+      var sRight = right.simplify
+      
+      //checking for x / 1
+      if (sLeft.isInstanceOf[Var] && sRight.isInstanceOf[Num] )
+      {
+        if ( sRight.asInstanceOf[Num].eval == 1)
+        {
+            return Var(sLeft.asInstanceOf[Var].value,sLeft.asInstanceOf[Var].symbol)
+        }
+      }
+      //checking for (e*x)/x || (x*e)
+      else if (sLeft.isInstanceOf[Mult] && sRight.isInstanceOf[Var] )
+      {
+        var mult = sLeft.asInstanceOf[Mult];
+        if(mult.left.isInstanceOf[Var])
+        {
+          if(mult.left.asInstanceOf[Var].symbol == sRight.asInstanceOf[Var].symbol)
+          {
+            return mult.right
+          }
+        }
+        else if(mult.right.isInstanceOf[Var])
+        {
+          if(mult.right.asInstanceOf[Var].symbol == sRight.asInstanceOf[Var].symbol)
+          {
+            return mult.left
+          }
+        }
+      }
+      return Div(sLeft,sRight)
+    }
+  }
+  def Num(v: Int): exp
   def Var(v: Int, s: String): exp
   def Plus(l: exp, r: exp): exp
-  //def Subt(l: exp, r: exp): exp
-  //def Mult(l: exp, r: exp): exp
-  //def Div(l: exp, r: exp): exp
+  def Subt(l: exp, r: exp): exp
+  def Mult(l: exp, r: exp): exp
+  def Div(l: exp, r: exp): exp
   def Bracket(operand: exp): exp
   def Neg(operand: exp): exp
 
@@ -202,9 +320,9 @@ trait SimplifyAllOperations extends BaseAllOperations{
 
 /** Testing the resulting combination
  */
-object testSimplify extends SimplifyAllOperations with Application
-{
-}
+//object testSimplify extends SimplifyAllOperations with Application
+//{
+//}
 
 /////////////////////////////////////////////////////////////
 
@@ -317,24 +435,3 @@ object testEqualsAllOperations extends EqualsAllOperations with Application
 }
 
 
-
-/*trait EqualsShowPlusNeg extends EqualsPlusNeg with ShowPlusNeg {
-  type exp <: Exp
-
-  trait Exp extends super[EqualsPlusNeg].Exp with super[ShowPlusNeg].Exp
-
-  trait Num
-    extends super[EqualsPlusNeg].Num
-       with super[ShowPlusNeg].Num
-       with Exp
-
-  trait Plus 
-    extends super[EqualsPlusNeg].Plus
-       with super[ShowPlusNeg].Plus
-       with Exp
-
-  trait Neg 
-    extends super[EqualsPlusNeg].Neg
-       with super[ShowPlusNeg].Neg
-       with Exp
-}*/
