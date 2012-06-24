@@ -287,7 +287,7 @@ trait EqualsAllOperations extends BaseAllOperations with Equals{
   }
 }
 
-object testEqualsAllOperations extends EqualsAllOperations 
+object testEqualsAllOperations extends EqualsAllOperations with Application
 {
   type exp = Exp
   val term = new Mult{
@@ -298,8 +298,24 @@ object testEqualsAllOperations extends EqualsAllOperations
     val right = new Num {
       val value = 2
       }
-  } 
-   def main(args: Array[String]) {println("yoyoyo \n")}
+  }
+  val divTerm = new Div{
+    val left = term
+    val right = new Num {val value = 3}
+  }
+  
+  val subtTerm = new Subt{
+    val left = divTerm
+    val right = new Num {val value = 2}
+  }
+  System.out.println("yoyoyo \n")
+  System.out.println(term eval)
+  System.out.println("divTerm ",divTerm eval)
+  System.out.println(subtTerm eval)
+  
+  //System.out.println(term eql new Num { val value = 1 })
+   //def main(args: Array[String]) {println("yoyoyo \n")}
+  
 }
 
 
