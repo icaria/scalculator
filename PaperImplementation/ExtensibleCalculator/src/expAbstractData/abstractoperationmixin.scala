@@ -383,6 +383,18 @@ trait EqualsAllOperations extends BaseAllOperations with Equals{
   }
 }
 
+trait SimplifyEqualsAllOperations extends SimplifyAllOperations with EqualsAllOperations
+{
+  type exp <: Exp
+  trait Exp extends super[SimplifyAllOperations].Exp with super[EqualsAllOperations].Exp
+  trait Num extends super[SimplifyAllOperations].Num with super[EqualsAllOperations].Num
+  trait Bracket extends super[SimplifyAllOperations].Bracket with super[EqualsAllOperations].Bracket
+  trait Neg extends super[SimplifyAllOperations].Neg with super[EqualsAllOperations].Neg
+  trait Plus extends super[SimplifyAllOperations].Plus with super[EqualsAllOperations].Plus
+  trait Subt extends super[SimplifyAllOperations].Subt with super[EqualsAllOperations].Subt
+  trait Mult extends super[SimplifyAllOperations].Mult with super[EqualsAllOperations].Mult
+  trait Div extends super[SimplifyAllOperations].Div with super[EqualsAllOperations].Div
+}
 
 object testEqualsAllOperations extends EqualsAllOperations with Application
 {
