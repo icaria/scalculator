@@ -9,18 +9,18 @@ trait Base {
   type exp <: Exp
 
   trait Exp { 
-    def eval: Int
+    def eval: Double
   }
 
   trait Num extends Exp {
-    val value: Int
+    var value: Double = _ ;
     def eval = value
   }
   
   trait Var extends Exp {
-    val value: Int
-    val symbol: String
-    def eval:Int = value
+    var value: Double = _;
+    var symbol: String = _;
+    def eval:Double = value
     def sEval = symbol
   }
 }
@@ -30,8 +30,8 @@ trait Base {
  */
 trait BasePlus extends Base {
   trait Plus extends Exp {
-    val left: exp
-    val right: exp
+    var left: exp = _ ;
+    var right: exp = _ ;
     def eval = left.eval + right.eval
   }
 }
@@ -40,8 +40,8 @@ trait BasePlus extends Base {
  */
 trait BaseSubt extends Base {
   trait Subt extends Exp {
-    val left: exp
-    val right: exp
+    var left: exp = _ ;
+    var right: exp = _ ;
     def eval = left.eval - right.eval
   }
 } 
@@ -50,7 +50,7 @@ trait BaseSubt extends Base {
  */
 trait BaseNeg extends Base {
   trait Neg extends Exp {
-    val operand: exp
+    var operand: exp = _ ;
     def eval = - operand.eval
   }
 }
@@ -59,8 +59,8 @@ trait BaseNeg extends Base {
  */
 trait BaseMult extends Base {
   trait Mult extends Exp {
-    val left: exp
-    val right: exp
+    var left: exp = _ ;
+    var right: exp = _ ;
     def eval = left.eval * right.eval
   }
 }
@@ -69,8 +69,8 @@ trait BaseMult extends Base {
  */
 trait BaseDiv extends Base {
   trait Div extends Exp {
-    val left: exp
-    val right: exp
+    var left: exp = _ ;
+    var right: exp = _ ;
     def eval = left.eval / right.eval
   }
 } 
@@ -79,7 +79,7 @@ trait BaseDiv extends Base {
  */
 trait BaseBracket extends Base {
   trait Bracket extends Exp {
-    val operand: exp
+    var operand: exp = _ ;
     def eval = operand.eval
   }
 } 
@@ -151,6 +151,9 @@ trait SimplifyAllOperations extends BaseAllOperations{
   
   trait Num extends super.Num with Exp {
     def simplify = Num (value) 
+  }
+  trait Var extends super.Var with Exp {
+    def simplify = Var (value,symbol) 
   }
   trait Neg extends super.Neg with Exp{
     def simplify = Neg(operand.simplify)
@@ -307,22 +310,32 @@ trait SimplifyAllOperations extends BaseAllOperations{
       return Div(sLeft,sRight)
     }
   }
-  def Num(v: Int): exp
-  def Var(v: Int, s: String): exp
+  def Num(v: Double): exp
+  def Var(v: Double, s: String): exp
   def Plus(l: exp, r: exp): exp
   def Subt(l: exp, r: exp): exp
   def Mult(l: exp, r: exp): exp
   def Div(l: exp, r: exp): exp
-  def Bracket(operand: exp): exp
-  def Neg(operand: exp): exp
+  def Bracket(o: exp): exp
+  def Neg(t: exp): exp
 
 }
 
 /** Testing the resulting combination
  */
-//object testSimplify extends SimplifyAllOperations with Application
-//{
-//}
+object testSimplify extends SimplifyAllOperations with Application
+{
+  type exp = Exp
+  def Num(v: Double) = new Num {value = v}
+  def Var(v: Double, s: String) = new Var {value = v; symbol = s}
+  def Plus(l: exp, r: exp) = new Plus { left = l; right = r}
+  def Subt(l: exp, r: exp) = new Subt { left = l; right = r}
+  def Mult(l: exp, r: exp) = new Mult { left = l; right = r}
+  def Div(l: exp, r: exp) = new Div { left = l; right = r}
+  def Bracket(o: exp) = new Bracket { operand = o }
+  def Neg(t: exp) = new Neg { operand = t}
+
+}
 
 /////////////////////////////////////////////////////////////
 
@@ -332,11 +345,11 @@ trait Equals extends Base {
   type exp <: Exp
   trait Exp extends super.Exp {
     def eql(other: exp): Boolean
-    def isNum(v: Int) = false
+    def isNum(v: Double) = false
   }
   trait Num extends super.Num with Exp {
     def eql(other: exp): Boolean = other.isNum(value)
-    override def isNum(v: Int) = v == value
+    override def isNum(v: Double) = v == value
   }
 }
 
@@ -399,23 +412,21 @@ trait SimplifyEqualsAllOperations extends SimplifyAllOperations with EqualsAllOp
 object testEqualsAllOperations extends EqualsAllOperations with Application
 {
   type exp = Exp
-  val term = new Mult{
-    val left = new Plus { 
-      val left = new Num { val value =1 }
-      val right = new Num { val value = 2}
+  var term = new Mult{
+     left =new Plus { 
+      left = new Num { value = 1 }
+       right = new Num {  value = 2}
       }
-    val right = new Num {
-      val value = 2
-      }
+     right =new Num { value =2   }
   }
-  val divTerm = new Div{
-    val left = term
-    val right = new Num {val value = 3}
+  var divTerm = new Div{
+     left = term
+     right = new Num {value =3}
   }
   
-  val subtTerm = new Subt{
-    val left = divTerm
-    val right = new Num {val value = 2}
+  var subtTerm = new Subt{
+    left = divTerm
+    right = new Num { value = 2}
   }
   
   def replace(e:exp): exp =
@@ -424,17 +435,17 @@ object testEqualsAllOperations extends EqualsAllOperations with Application
       System.out.println("troll")
     //} 
 	   new Plus { 
-	    val left = new Num{ val value = 0}
-	    val right = new Num { val value = 0}
+	      left = new Num{  value = 0}
+	      right = new Num { value = 0}
 	  }
   }
   var mult:exp = new Mult { 
-    val left = new Num{ val value = 0}
-    val right = new Num { val value = 0}
+    left = new Num{ value = 0}
+    right = new Num { value = 0}
   }
   
   //Important
-  def Num(v : Int) = new Num{ val value = v}
+  //def Num(v : Int) = new Num{ var value = v}
   
   mult = replace(mult)
   
