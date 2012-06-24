@@ -13,16 +13,16 @@
 		<item value="false" key="isRegEx"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="object" key="selection"/>
+		<item value="override" key="selection"/>
 		<list key="findhistory">
+			<item value="override"/>
+			<item value="show"/>
 			<item value="object"/>
 			<item value="object te"/>
 			<item value="override def main"/>
 			<item value="testEqualsAllOperations"/>
 			<item value="main"/>
 			<item value="class"/>
-			<item value="BaseNe"/>
-			<item value="BasePlusNeg"/>
 		</list>
 		<list key="replacehistory">
 		</list>
