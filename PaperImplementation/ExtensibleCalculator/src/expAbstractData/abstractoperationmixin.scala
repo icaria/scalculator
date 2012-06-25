@@ -1,5 +1,6 @@
 package expAbstractData
 
+import scala.collection.mutable.HashMap
 /** A base class consisting of
  *   - a root trait (i.e. abstract class) `Exp' with an `eval' function
  *   - an abstract type `exp' bounded by `Exp'
@@ -18,9 +19,8 @@ trait Base {
   }
   
   trait Var extends Exp {
-    var value: Double = _;
     var symbol: String = _;
-    def eval:Double = value
+    def eval:Double = throw new Exception("Variable not defined.");
     def sEval = symbol
   }
 }
@@ -86,7 +86,16 @@ trait BaseBracket extends Base {
 
 /** Combining all data extensions
  */
-trait BaseAllOperations extends BasePlus with BaseNeg with BaseSubt with BaseMult with BaseDiv with BaseBracket
+trait BaseAllOperations extends BasePlus with BaseNeg with BaseSubt with BaseMult with BaseDiv with BaseBracket{
+  def Num(v: Double): exp
+  def Var(s: String): exp
+  def Plus(l: exp, r: exp): exp
+  def Subt(l: exp, r: exp): exp
+  def Mult(l: exp, r: exp): exp
+  def Div(l: exp, r: exp): exp
+  def Bracket(o: exp): exp
+  def Neg(t: exp): exp
+}
 
 /** A test object for the combination class.
  *  It ``ties the knot'' by equating the abstract type `exp' with
@@ -144,16 +153,16 @@ trait ShowAllOperations extends BaseAllOperations with Show{
 
 trait SimplifyAllOperations extends BaseAllOperations{
   type exp <: Exp
+  
   trait Exp extends super.Exp {
     def simplify: exp
   }
- 
   
   trait Num extends super.Num with Exp {
     def simplify = Num (value) 
   }
   trait Var extends super.Var with Exp {
-    def simplify = Var (value,symbol) 
+    def simplify = Var (symbol) 
   }
   trait Neg extends super.Neg with Exp{
     def simplify = Neg(operand.simplify)
@@ -170,13 +179,13 @@ trait SimplifyAllOperations extends BaseAllOperations{
       if ((sLeft.isInstanceOf[Var] && (sRight.isInstanceOf[Num] && (sRight.eval == 0))) )
       {
         var casted = sLeft.asInstanceOf[Var]
-        return Var(casted.value,casted.symbol)
+        return Var(casted.symbol)
       }
       // 0 + x
       else if((sRight.isInstanceOf[Var] && (sLeft.isInstanceOf[Num] && (sLeft.eval == 0))) )
       {
         var casted = sRight.asInstanceOf[Var]
-        return Var(casted.value,casted.symbol)
+        return Var(casted.symbol)
       }
       // x + x
       else if (sLeft.isInstanceOf[Var] && sRight.isInstanceOf[Var] ) 
@@ -185,7 +194,7 @@ trait SimplifyAllOperations extends BaseAllOperations{
         var castedRight = sRight.asInstanceOf[Var]
         if(castedLeft.symbol == castedRight.symbol)
         {
-          return Mult(Num(2),Var(castedLeft.eval,castedLeft.symbol))
+          return Mult(Num(2),Var(castedLeft.symbol))
         }
       }
       // (e1*x) + (e2*x) || (x*e1)+(e2*x) || (e1*x)+(x*e2) || (x*e1)+(x*e2)
@@ -261,7 +270,7 @@ trait SimplifyAllOperations extends BaseAllOperations{
       {
         if ( sRight.asInstanceOf[Num].eval == 1)
         {
-            return Var(sLeft.asInstanceOf[Var].value,sLeft.asInstanceOf[Var].symbol)
+            return Var(sLeft.asInstanceOf[Var].symbol)
         }
       }
       //checking for 1 * x
@@ -269,7 +278,7 @@ trait SimplifyAllOperations extends BaseAllOperations{
       {
         if (sLeft.asInstanceOf[Num].eval == 1)
         {
-          return Var(sRight.asInstanceOf[Var].value,sRight.asInstanceOf[Var].symbol)
+          return Var(sRight.asInstanceOf[Var].symbol)
         }
       }
       return Mult(sLeft,sRight)
@@ -285,7 +294,7 @@ trait SimplifyAllOperations extends BaseAllOperations{
       {
         if ( sRight.asInstanceOf[Num].eval == 1)
         {
-            return Var(sLeft.asInstanceOf[Var].value,sLeft.asInstanceOf[Var].symbol)
+            return Var(sLeft.asInstanceOf[Var].symbol)
         }
       }
       //checking for (e*x)/x || (x*e)
@@ -310,34 +319,94 @@ trait SimplifyAllOperations extends BaseAllOperations{
       return Div(sLeft,sRight)
     }
   }
-  def Num(v: Double): exp
-  def Var(v: Double, s: String): exp
-  def Plus(l: exp, r: exp): exp
-  def Subt(l: exp, r: exp): exp
-  def Mult(l: exp, r: exp): exp
-  def Div(l: exp, r: exp): exp
-  def Bracket(o: exp): exp
-  def Neg(t: exp): exp
 
+
+}
+
+trait ReplaceAllOperations extends BaseAllOperations{
+  type exp <: Exp
+  
+  trait Exp extends super.Exp {
+    def replace(map:HashMap[String,Double]): exp
+  }
+  
+  trait Num extends super.Num with Exp {
+    def replace(map:HashMap[String,Double]) = Num (value) 
+  }
+  trait Var extends super.Var with Exp {
+    def replace(map:HashMap[String,Double]): exp = {
+      if (map.contains(symbol)) Num(map.getOrElse(symbol, 0)) else Var(symbol)
+    } 
+  }
+  trait Neg extends super.Neg with Exp{
+    def replace(map:HashMap[String,Double]) = Neg(operand.replace(map))
+  }
+  trait Bracket extends super.Bracket with Exp{
+    def replace(map:HashMap[String,Double]) = Bracket(operand.replace(map))
+  }
+  
+  trait Plus extends super.Plus with Exp{
+    def replace(map:HashMap[String,Double]) = Plus(left.replace(map), right.replace(map))
+  }
+  
+  trait Subt extends super.Subt with Exp{
+    def replace(map:HashMap[String,Double]) = Subt(left.replace(map), right.replace(map))
+  }
+
+  trait Mult extends super.Mult with Exp{
+    def replace(map:HashMap[String,Double]) = Mult(left.replace(map), right.replace(map))
+  }
+
+  trait Div extends super.Div with Exp{
+    def replace(map:HashMap[String,Double]) = Div(left.replace(map), right.replace(map))
+  }
+}
+
+trait ShowSimplifyReplaceAllOperations extends ShowAllOperations with SimplifyAllOperations with ReplaceAllOperations
+{
+  type exp <: Exp
+  trait Exp extends super[ShowAllOperations].Exp with super[SimplifyAllOperations].Exp with super[ReplaceAllOperations].Exp
+  trait Num extends super[ShowAllOperations].Num with super[SimplifyAllOperations].Num with super[ReplaceAllOperations].Num
+  trait Bracket extends super[ShowAllOperations].Bracket with super[SimplifyAllOperations].Bracket with super[ReplaceAllOperations].Bracket
+  trait Neg extends super[ShowAllOperations].Neg with super[SimplifyAllOperations].Neg with super[ReplaceAllOperations].Neg
+  trait Plus extends super[ShowAllOperations].Plus with super[SimplifyAllOperations].Plus with super[ReplaceAllOperations].Plus
+  trait Subt extends super[ShowAllOperations].Subt with super[SimplifyAllOperations].Subt with super[ReplaceAllOperations].Subt
+  trait Mult extends super[ShowAllOperations].Mult with super[SimplifyAllOperations].Mult with super[ReplaceAllOperations].Mult
+  trait Div extends super[ShowAllOperations].Div with super[SimplifyAllOperations].Div with super[ReplaceAllOperations].Div
 }
 
 /** Testing the resulting combination
  */
-object testSimplify extends SimplifyAllOperations with Application
+object testAll extends ShowSimplifyReplaceAllOperations with Application
 {
   type exp = Exp
   def Num(v: Double) = new Num {value = v}
-  def Var(v: Double, s: String) = new Var {value = v; symbol = s}
+  def Var(s: String) = new Var {symbol = s}
   def Plus(l: exp, r: exp) = new Plus { left = l; right = r}
   def Subt(l: exp, r: exp) = new Subt { left = l; right = r}
   def Mult(l: exp, r: exp) = new Mult { left = l; right = r}
   def Div(l: exp, r: exp) = new Div { left = l; right = r}
   def Bracket(o: exp) = new Bracket { operand = o }
   def Neg(t: exp) = new Neg { operand = t}
-
+  
+  var term = new Plus{
+     left = new Num { value = 1.0 }
+     right = new Bracket { 
+    	 operand = new Plus {
+    		 left = new Var { symbol = "x" }
+    		 right =new Var { symbol = "x" }
+    	 }
+     }
+  }
+  //println(term.left.show)
+  //println(term.right.show)
+  val map = new HashMap[String, Double]
+  map += "x" -> 5
+  map += "y" -> 4
+  println(term.replace(map))
 }
 
-/////////////////////////////////////////////////////////////
+/*////////////////////////////////////////////////////////////
 
 /** Binary methods
 */
@@ -455,6 +524,6 @@ object testEqualsAllOperations extends EqualsAllOperations with Application
   System.out.println("divTerm ",divTerm eval)
   System.out.println(subtTerm eval)
   
-}
+}*/
 
 
