@@ -366,13 +366,14 @@ trait ShowSimplifyReplaceAllOperations extends ShowAllOperations with SimplifyAl
 {
   type exp <: Exp
   trait Exp extends super[ShowAllOperations].Exp with super[SimplifyAllOperations].Exp with super[ReplaceAllOperations].Exp
-  trait Num extends super[ShowAllOperations].Num with super[SimplifyAllOperations].Num with super[ReplaceAllOperations].Num
-  trait Bracket extends super[ShowAllOperations].Bracket with super[SimplifyAllOperations].Bracket with super[ReplaceAllOperations].Bracket
-  trait Neg extends super[ShowAllOperations].Neg with super[SimplifyAllOperations].Neg with super[ReplaceAllOperations].Neg
-  trait Plus extends super[ShowAllOperations].Plus with super[SimplifyAllOperations].Plus with super[ReplaceAllOperations].Plus
-  trait Subt extends super[ShowAllOperations].Subt with super[SimplifyAllOperations].Subt with super[ReplaceAllOperations].Subt
-  trait Mult extends super[ShowAllOperations].Mult with super[SimplifyAllOperations].Mult with super[ReplaceAllOperations].Mult
-  trait Div extends super[ShowAllOperations].Div with super[SimplifyAllOperations].Div with super[ReplaceAllOperations].Div
+  trait Num extends super[ShowAllOperations].Num with super[SimplifyAllOperations].Num with super[ReplaceAllOperations].Num with Exp
+  trait Var extends super[ShowAllOperations].Var with super[SimplifyAllOperations].Var with super[ReplaceAllOperations].Var with Exp
+  trait Bracket extends super[ShowAllOperations].Bracket with super[SimplifyAllOperations].Bracket with super[ReplaceAllOperations].Bracket with Exp
+  trait Neg extends super[ShowAllOperations].Neg with super[SimplifyAllOperations].Neg with super[ReplaceAllOperations].Neg with Exp
+  trait Plus extends super[ShowAllOperations].Plus with super[SimplifyAllOperations].Plus with super[ReplaceAllOperations].Plus with Exp
+  trait Subt extends super[ShowAllOperations].Subt with super[SimplifyAllOperations].Subt with super[ReplaceAllOperations].Subt with Exp
+  trait Mult extends super[ShowAllOperations].Mult with super[SimplifyAllOperations].Mult with super[ReplaceAllOperations].Mult with Exp
+  trait Div extends super[ShowAllOperations].Div with super[SimplifyAllOperations].Div with super[ReplaceAllOperations].Div with Exp
 }
 
 /** Testing the resulting combination
@@ -394,16 +395,17 @@ object testAll extends ShowSimplifyReplaceAllOperations with Application
      right = new Bracket { 
     	 operand = new Plus {
     		 left = new Var { symbol = "x" }
-    		 right =new Var { symbol = "x" }
+    		 right =new Var { symbol = "y" }
     	 }
      }
   }
   //println(term.left.show)
   //println(term.right.show)
   val map = new HashMap[String, Double]
+  map += "y" -> 0
+  println(term.replace(map).simplify.show)
   map += "x" -> 5
-  map += "y" -> 4
-  println(term.replace(map))
+  println(term.replace(map).simplify.eval)
 }
 
 /*////////////////////////////////////////////////////////////
