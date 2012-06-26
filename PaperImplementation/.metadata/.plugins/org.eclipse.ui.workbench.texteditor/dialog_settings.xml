@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="PlusNeg" key="selection"/>
+		<item value="def Num(v: Double)" key="selection"/>
 		<list key="findhistory">
-			<item value="PlusNeg"/>
-			<item value="isNum"/>
-			<item value="BaseBracket"/>
-			<item value="== 0"/>
-			<item value="val "/>
-			<item value="val"/>
-			<item value="override"/>
+			<item value="def Num(v: Double)"/>
+			<item value="def Neg("/>
+			<item value="def Neg ("/>
+			<item value="replace"/>
 			<item value="show"/>
+			<item value="object testsim"/>
+			<item value="Int"/>
+			<item value="Int "/>
 		</list>
 		<list key="replacehistory">
 		</list>
