@@ -2,7 +2,9 @@ package expAbstractData
 
 import scala.collection.mutable.HashMap
 
-
+/**Combine all extended features extended in other files
+ * */
+ 
 trait ShowSimplifyReplaceAllOperations extends ShowAllOperations with SimplifyAllOperations with ReplaceAllOperations
 {
   type exp <: Exp
@@ -23,6 +25,8 @@ trait ShowSimplifyReplaceAllOperations extends ShowAllOperations with SimplifyAl
 object testAll extends ShowSimplifyReplaceAllOperations with Application
 {
   type exp = Exp
+  /**Creating data instances
+   */
   def Num(v: Double) = new Num {value = v}
   def Var(s: String) = new Var {symbol = s}
   def Plus(l: exp, r: exp) = new Plus { left = l; right = r}
@@ -41,6 +45,8 @@ object testAll extends ShowSimplifyReplaceAllOperations with Application
     	 }
      }
   }
+  /**Mapping variables to constant values and test the expression
+   */
   val map = new HashMap[String, Double]
   map += "y" -> 0
   println(term.replace(map).simplify.show)

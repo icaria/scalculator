@@ -1,6 +1,7 @@
 package expAbstractData
 
-/** Combining all data extensions
+/** This trait will setup all required data traits which inherit from the Base class
+ * By combining all operations in to one trait, it will be easy to extend all of them 
  */
 trait BaseAllOperations extends BasePlus with BaseNeg with BaseSubt with BaseMult with BaseDiv with BaseBracket{
   def Num(v: Double): exp

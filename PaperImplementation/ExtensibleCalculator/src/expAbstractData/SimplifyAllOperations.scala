@@ -1,12 +1,17 @@
 package expAbstractData
 
+/**
+This trait will be responsible for simplifying the expressions
+ */
 trait SimplifyAllOperations extends BaseAllOperations{
   type exp <: Exp
   
   trait Exp extends super.Exp {
     def simplify: exp
   }
-  
+  /**
+   Extend all data types with simply function
+   */
   trait Num extends super.Num with Exp {
     def simplify = Num (value) 
   }
@@ -19,7 +24,10 @@ trait SimplifyAllOperations extends BaseAllOperations{
   trait Bracket extends super.Bracket with Exp{
     def simplify = Bracket(operand.simplify)
   }
-  
+  /**
+   Plus, Div, Mult, and Subt will need to check the types of children
+   to find out how to simplify the expression and return the correct type
+   */
   trait Plus extends super.Plus with Exp{
     def simplify:exp = {
       var sLeft = left.simplify

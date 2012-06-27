@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<workbench progressCount="39" version="2.0">
+<workbench progressCount="33" version="2.0">
 <workbenchAdvisor/>
 <window height="728" maximized="true" width="1024" x="200" y="-19">
 <fastViewData fastViewLocation="1024"/>
@@ -40,33 +40,38 @@
 <part id="3"/>
 <part id="4"/>
 <part id="5"/>
+<part id="6"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="abstractoperationmixin.scala" partName="abstractoperationmixin.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala" title="abstractoperationmixin.scala" tooltip="ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="68" selectionTopPixel="0"/>
-</editor>
 <editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="calc.scala" partName="calc.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/ParserTree/src/patternMatchCalculator/calc.scala" title="calc.scala" tooltip="ExpressionTreeCalculator/src/patternMatchCalculator/calc.scala" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExpressionTreeCalculator/src/patternMatchCalculator/calc.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2918" selectionTopPixel="945"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="167" selectionTopPixel="1187"/>
 </editor>
-<editor activePart="true" focus="true" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllOperations.scala" partName="BaseAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala" title="BaseAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="360" selectionTopPixel="0"/>
-</editor>
-<editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="ShowAllOperations.scala" partName="ShowAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala" title="ShowAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala" workbook="DefaultEditorWorkbook">
-<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1473" selectionTopPixel="0"/>
+<editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="testAll.scala" partName="testAll.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/testAll.scala" title="testAll.scala" tooltip="ExtensibleCalculator/src/expAbstractData/testAll.scala" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/testAll.scala"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2408" selectionTopPixel="407"/>
 </editor>
 <editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="SimplifyAllOperations.scala" partName="SimplifyAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala" title="SimplifyAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="5175" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="802" selectionTopPixel="0"/>
+</editor>
+<editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="ShowAllOperations.scala" partName="ShowAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala" title="ShowAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="859" selectionTopPixel="0"/>
 </editor>
 <editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="ReplaceAllOperations.scala" partName="ReplaceAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala" title="ReplaceAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="64" selectionTopPixel="0"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="252" selectionTopPixel="2"/>
+</editor>
+<editor id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseTraits.scala" partName="BaseTraits.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/BaseTraits.scala" title="BaseTraits.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseTraits.scala" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/BaseTraits.scala"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllOperations.scala" partName="BaseAllOperations.scala" path="C:/Users/JTK/Documents/SE 464/Assignment 2/repo/scalculator/PaperImplementation/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala" title="BaseAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="198" selectionTopPixel="0"/>
 </editor>
 </editors>
 <views>
@@ -498,52 +503,15 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExpressionTreeCalculator/src/patternMatchCalculator/calc.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/testAll.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/BaseTraits.scala"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" path="/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala"/>
 </editors>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="11248" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="11940" y="0"/>
-</item>
-<item historyLabel="calc.scala" index="1">
-<position info="not_deleted" x="592" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="13222" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="7910" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="4147" y="7"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="3895" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="3895" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="3747" y="21"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="4147" y="7"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="3799" y="76"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="9255" y="12"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="1878" y="0"/>
-</item>
-<item historyLabel="abstractoperationmixin.scala" index="0">
-<position info="not_deleted" x="9255" y="12"/>
-</item>
 <item historyLabel="abstractoperationmixin.scala" index="0">
 <position info="not_deleted" x="9793" y="0"/>
 </item>
@@ -646,8 +614,37 @@
 <item historyLabel="abstractoperationmixin.scala" index="2">
 <position info="not_deleted" x="68" y="0"/>
 </item>
-<item active="true" historyLabel="BaseAllOperations.scala" index="4">
+<item historyLabel="BaseAllOperations.scala" index="4">
 <position info="not_deleted" x="2324" y="0"/>
+</item>
+<item historyLabel="ShowAllOperations.scala" index="8"/>
+<item historyLabel="BaseAllOperations.scala" index="4"/>
+<item historyLabel="SimplifyAllOperations.scala" index="9"/>
+<item historyLabel="ReplaceAllOperations.scala" index="10"/>
+<item historyLabel="SimplifyAllOperations.scala" index="9"/>
+<item historyLabel="ShowAllOperations.scala" index="8"/>
+<item historyLabel="abstractoperationmixin.scala" index="11"/>
+<item historyLabel="calc.scala" index="12"/>
+<item historyLabel="calc.scala" index="12">
+<position info="not_deleted" x="167" y="0"/>
+</item>
+<item historyLabel="testAll.scala" index="13">
+<position info="not_deleted" x="2408" y="0"/>
+</item>
+<item historyLabel="SimplifyAllOperations.scala" index="9">
+<position info="not_deleted" x="802" y="0"/>
+</item>
+<item historyLabel="ShowAllOperations.scala" index="8">
+<position info="not_deleted" x="859" y="0"/>
+</item>
+<item historyLabel="ReplaceAllOperations.scala" index="10">
+<position info="not_deleted" x="252" y="0"/>
+</item>
+<item historyLabel="BaseTraits.scala" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="BaseAllOperations.scala" index="15">
+<position info="not_deleted" x="0" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -667,23 +664,29 @@
 </trimLayout>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllTraits.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllTraits.scala">
-<persistable path="/ExtensibleCalculator/src/expAbstractData/BaseAllTraits.scala"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala">
+<persistable path="/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseTraits.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseTraits.scala">
+<persistable path="/ExtensibleCalculator/src/expAbstractData/BaseTraits.scala"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="ReplaceAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala">
 <persistable path="/ExtensibleCalculator/src/expAbstractData/ReplaceAllOperations.scala"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="SimplifyAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala">
-<persistable path="/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala"/>
-</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="ShowAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala">
 <persistable path="/ExtensibleCalculator/src/expAbstractData/ShowAllOperations.scala"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala">
-<persistable path="/ExtensibleCalculator/src/expAbstractData/BaseAllOperations.scala"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="SimplifyAllOperations.scala" tooltip="ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala">
+<persistable path="/ExtensibleCalculator/src/expAbstractData/SimplifyAllOperations.scala"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="testAll.scala" tooltip="ExtensibleCalculator/src/expAbstractData/testAll.scala">
+<persistable path="/ExtensibleCalculator/src/expAbstractData/testAll.scala"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="calc.scala" tooltip="ExpressionTreeCalculator/src/patternMatchCalculator/calc.scala">
 <persistable path="/ExpressionTreeCalculator/src/patternMatchCalculator/calc.scala"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="BaseAllTraits.scala" tooltip="ExtensibleCalculator/src/expAbstractData/BaseAllTraits.scala">
+<persistable path="/ExtensibleCalculator/src/expAbstractData/BaseAllTraits.scala"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="scala.tools.eclipse.ScalaSourceFileEditor" name="abstractoperationmixin.scala" tooltip="ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala">
 <persistable path="/ExtensibleCalculator/src/expAbstractData/abstractoperationmixin.scala"/>

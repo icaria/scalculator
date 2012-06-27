@@ -1,6 +1,11 @@
 package expAbstractData
 import scala.collection.mutable.HashMap
 
+/**
+ This trait will extend all data types with replace function.
+ replace function will replace function values with mapped constant values when 
+ the expression is being evaluated
+ */
 trait ReplaceAllOperations extends BaseAllOperations{
   type exp <: Exp
   

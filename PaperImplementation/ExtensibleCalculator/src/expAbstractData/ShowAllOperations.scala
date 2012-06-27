@@ -23,7 +23,7 @@ trait Show extends Base {
 
 /** Combining operation extension 1 with the data extensions:
  *    - we only need to implement `show' for the two extension classes 
- *      `Plus` and `Neg`.
+ *      Plus, Neg, Subt, Mult, Div, Bracket .
  */
 trait ShowAllOperations extends BaseAllOperations with Show{
   trait Plus extends super.Plus with Exp {
