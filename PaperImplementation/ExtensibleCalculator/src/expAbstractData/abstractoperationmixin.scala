@@ -179,4 +179,3 @@ object testEqualsAllOperations extends EqualsAllOperations with Application
   
 }*/
 
-
