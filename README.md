@@ -1,4 +1,4 @@
 scalculator
 ===========
 
-Scala Calculator for Architecture Assignment 2
+Scala Calculator
